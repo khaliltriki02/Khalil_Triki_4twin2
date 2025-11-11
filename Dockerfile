@@ -4,11 +4,9 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files and node_modules
 COPY package*.json ./
-
-# Install dependencies
-RUN npm ci --only=production
+COPY node_modules ./node_modules
 
 # Copy application files
 COPY src/ ./src/
