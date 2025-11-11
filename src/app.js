@@ -45,7 +45,7 @@ app.get('/api/users', (req, res) => {
 
 // Get user by ID
 app.get('/api/users/:id', (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
   const user = users.find(u => u.id === id);
   
   if (!user) {
@@ -72,8 +72,10 @@ app.post('/api/users', (req, res) => {
     });
   }
   
+  // Generate new ID by finding max ID and adding 1
+  const maxId = users.reduce((max, user) => user.id > max ? user.id : max, 0);
   const newUser = {
-    id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+    id: maxId + 1,
     name,
     email
   };
@@ -88,7 +90,7 @@ app.post('/api/users', (req, res) => {
 
 // Update user
 app.put('/api/users/:id', (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
   const { name, email } = req.body;
   const userIndex = users.findIndex(u => u.id === id);
   
@@ -110,7 +112,7 @@ app.put('/api/users/:id', (req, res) => {
 
 // Delete user
 app.delete('/api/users/:id', (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
   const userIndex = users.findIndex(u => u.id === id);
   
   if (userIndex === -1) {

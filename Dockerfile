@@ -5,6 +5,8 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copy package files and node_modules
+# Note: Copying node_modules directly due to npm build constraints in CI environment
+# In production, prefer: COPY package*.json ./ && RUN npm ci --omit=dev
 COPY package*.json ./
 COPY node_modules ./node_modules
 
